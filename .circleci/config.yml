@@ -7,32 +7,18 @@ jobs:
   armorcode-validate:
     docker:
       - image: byrnedo/alpine-curl
+    environment:
+      productId: 151
+      subProductId: 268
+      environment: Staging
+      token: ede1a592-f4a2-4181-b79d-4a3340b3fe34
+      buildTool: CIRCLE_CI
     steps:
       - run:
           name: "Armorcode Validate"
           command: |
-              i=0
-              echo "Test : << pipeline.number >>"
-              while [ $i -lt 30 ]
-              do
-                  curl --location --request POST 'https://dev.armorcode.ai/client/buildvalidation' --header 'Content-Type: application/json' --header 'Authorization: Bearer ede1a592-f4a2-4181-b79d-4a3340b3fe34'  -d '{ "env": "Staging", "product": "151", "subProduct": "268", "buildTool":"CIRCLE_CI", "buildNumber": "<< pipeline.number >>"}'  > result.json
-                  status=$(grep -o '"status":"[^"]*' result.json  | grep -o '[^"]*$')
-                  echo "STATUS :: $status"
-                  if [ $status = "HOLD" ]
-                  then
-                      sleep 10
-                      i=$(( $i + 1 )) 
-                      if [ $i = 30 ]
-                      then
-                          echo "Exiting with error code 1"
-                          exit 1
-                      else
-                          continue
-                      fi
-                  else
-                      break
-                  fi
-              done
+	      wget https://qa.armorcode.ai/static/scripts/slastatus.sh
+	      sh slastatus.sh
               echo "END"
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
