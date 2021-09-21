@@ -13,6 +13,7 @@ jobs:
       environment: Staging
       token: ede1a592-f4a2-4181-b79d-4a3340b3fe34
       buildTool: CIRCLE_CI
+      buildNumber: "<< pipeline.number >>"
     steps:
       - run:
           name: "Armorcode Validate"
