@@ -18,7 +18,7 @@ jobs:
       - run:
           name: "Armorcode Validate"
           command: |
-              wget https://qa.armorcode.ai/static/scripts/slastatus.sh
+              wget https://dev.armorcode.ai/static/scripts/slastatus.sh
               sh slastatus.sh
               echo "END"
 # Invoke jobs via workflows
